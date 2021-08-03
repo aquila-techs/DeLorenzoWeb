@@ -1,54 +1,70 @@
-
 <div class="row">
-    <!-- <h4 class="card-title">User Table</h4> -->
-   
-    <div class="col-12 bg-white p-4 users" style="overflow-x: scroll;">
-      <div class="mb-4">
-  
-        <!-- <h4>Search Post</h4>
+  <!-- <h4 class="card-title">User Table</h4> -->
+
+  <div class="col-12 bg-white p-4 users" style="overflow-x: scroll;">
+    <div class="mb-4">
+
+      <!-- <h4>Search Post</h4>
         <div class="form-row">
-         
+
         </div> -->
-  
-      </div>
-      <table class="table table-hover text-center">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Creator</th>
-            <th scope="col">Specifications</th>
-            <th scope="col">MealType</th>
-            <th scope="col">Date</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let r of recipes; let i=index">
-            <td>{{ r?.nameEn }}</td>
-            <td>{{r?.user?.name }}</td>
-            <td>
-                <span *ngIf="r.specification.length == 0" class="badge badge-pill badge-danger">No Specification</span>
-                <span *ngFor="let c of r.specification" class="badge badge-pill badge-success ml-1">{{c}}</span>
-            </td>          
-            <td>
-                <span *ngIf="r.mealType.length == 0" class="badge badge-pill badge-danger">No MealType</span>
-                <span *ngFor="let t of r.mealType" class="badge badge-pill badge-info ml-1">{{t}}</span>
-            </td>
-            <td>
-              <small> Published </small><br>
-              {{r?.createdAt | date:'shortDate' }}  
-            </td>
-            <td>
-              <i class="ti-layout-cta-center text-info m-r-10 pointer" (click)="recipeDetail(r._id)"></i>
-              <i (click)="deleteRecipe(r._id,i)" class="ti-trash text-danger pointer"></i>
-            </td>
-          </tr>
-     </tbody>
-      </table>
-      <div class="d-flex justify-content-center p-2">
-            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pagination($event)" [pageSize]="numOfItems"
-            [collectionSize]="collSize" [(page)]="page" [maxSize]="6" [boundaryLinks]="true" size="sm">
-            </ngb-pagination>
-      </div>
 
     </div>
+    <table class="table table-hover text-center">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">{{language === "English" ? english.name : dutch.name}}</th>
+          <th scope="col">{{language === "English" ? english.creator : dutch.creator}}</th>
+          <th scope="col">{{language === "English" ? english.specifications : dutch.specifications}}</th>
+          <th scope="col">{{language === "English" ? english.meal_type : dutch.meal_type}}</th>
+          <th scope="col">{{language === "English" ? english.date : dutch.date}}</th>
+          <th scope="col">{{language === "English" ? english.action : dutch.action}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of recipes; let i=index">
+          <td>{{ language === "English" ? r?.nameEn : r?.nameNl }}</td>
+          <td>{{ r?.user?.name }}</td>
+          <td *ngIf="language == 'Dutch' ">
+            <span *ngIf="r.specification.length == 0" class="badge badge-pill badge-danger">No Specification</span>
+            <span *ngFor="let c of r.specification" class="badge badge-pill badge-success ml-1">
+              {{ c == "Gluten Free" ? "Glutenvrij" : c == "Lactose Free" ? "Lactose vrij" : c == "High Carb" ? "Hoge
+              koolhydraten" : c == "High Fat" ? "Veel vet" : c == "High Protein" ? "Hoog proteïnegehalte" : c }}
+            </span>
+          </td>
+          <td *ngIf="language == 'English' ">
+            <span *ngIf="r.specification.length == 0" class="badge badge-pill badge-danger">No Specification</span>
+            <span *ngFor="let c of r.specification" class="badge badge-pill badge-success ml-1">
+              {{c}}
+            </span>
+          </td>
+          <td *ngIf="language == 'Dutch' ">
+            <span *ngIf="r.mealType.length == 0" class="badge badge-pill badge-danger">No MealType</span>
+            <span *ngFor="let t of r.mealType" class="badge badge-pill badge-info ml-1">
+              {{t == "Vegan" ? "Veganistisch" : t == "Vegetarian" ? "Vegetarisch" : t == "Omnivore" ? "Omnivoor" : t}}
+            </span>
+          </td>
+          <td *ngIf="language == 'English' ">
+            <span *ngIf="r.mealType.length == 0" class="badge badge-pill badge-danger">No MealType</span>
+            <span *ngFor="let t of r.mealType" class="badge badge-pill badge-info ml-1">
+              {{t}}
+            </span>
+          </td>
+          <td>
+            <small>{{language === "English" ? english.published : dutch.published}}</small><br>
+            {{r?.createdAt | date:'shortDate' }}
+          </td>
+          <td>
+            <i class="ti-layout-cta-center text-info m-r-10 pointer" (click)="recipeDetail(r._id)"></i>
+            <i (click)="deleteRecipe(r._id,i)" class="ti-trash text-danger pointer"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center p-2">
+      <ngb-pagination class="d-flex justify-content-end" (pageChange)="pagination($event)" [pageSize]="numOfItems"
+        [collectionSize]="collSize" [(page)]="page" [maxSize]="6" [boundaryLinks]="true" size="sm">
+      </ngb-pagination>
+    </div>
+
+  </div>

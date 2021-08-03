@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
-          <label>Add New Recipe</label>
+          <label>{{language == "English" ? english.add_new_recipe : dutch.add_new_recipe}}</label>
           <input type="text" class="form-control radius margin" [(ngModel)]="recipe.nameEn" id="nameEn"
             aria-describedby="nameEn" placeholder="Name Of Recipe(EN)">
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
-          <label class="invisible d-sm-block d-none">Add New Recipe</label>
+          <label class="invisible d-sm-block d-none">{{language == "English" ? english.add_new_recipe : dutch.add_new_recipe}}</label>
           <input type="text" class="form-control radius" [(ngModel)]="recipe.nameNl" id="nameNl"
             aria-describedby="nameNl" placeholder="Name Of Recipe(NL)">
         </div>
@@ -18,28 +18,28 @@
       <div class="col-sm-6">
         <div class="form-group">
           <input type="Number" class="form-control radius" [(ngModel)]="recipe.time" id="time" aria-describedby="time"
-            placeholder="Time required to prepare (in min)">
+            [placeholder]="language == 'English' ? english.time_required_in_min : dutch.time_required_in_min">
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
           <select id="carbs" class="selectpicker form-control" name="pricing" [(ngModel)]="recipe.pricing">
-            <option value="" disabled selected>Select pricing option</option>
-            <option value="paid">Paid</option>
-            <option value="free">Free</option>
+            <option value="" disabled selected>{{language == "English" ? english.selectpricing_option : dutch.selectpricing_option}}</option>
+            <option value="paid">{{language == "English" ? english.paid : dutch.paid}}</option>
+            <option value="free">{{language == "English" ? english.free : dutch.free}}</option>
           </select>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
           <input type="text" class="form-control radius" [(ngModel)]="recipe.videoUrl" id="videoUrl"
-            aria-describedby="videoUrl" placeholder="Add Video Url">
+            aria-describedby="videoUrl" [placeholder]="language == 'English' ? english.add_video_url : dutch.add_video_url">
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
           <input type="text" class="form-control radius" [(ngModel)]="recipe.recipeUrl" id="recipeUrl"
-            aria-describedby="recipeUrl" placeholder="Add Recipe Url">
+            aria-describedby="recipeUrl" [placeholder]="language == 'English' ? english.add_recipe_url : dutch.add_recipe_url">
         </div>
       </div>
     </div>
@@ -63,48 +63,29 @@
 
     </div>
 
+    <div class="card radius">
+      <div class="card-body radius  col-sm-6">
+        <h4>{{language == "English" ? english.total_carbs : dutch.total_carbs}}: {{sum.carbs}}</h4>
+        <h4>{{language == "English" ? english.total_fruits : dutch.total_fruits}}: {{sum.fruits}}</h4>
+        <h4>{{language == "English" ? english.total_vegetables : dutch.total_vegetables}}: {{sum.vegetables}}</h4>
+        <h4>{{language == "English" ? english.total_herbs : dutch.total_herbs}}: {{sum.herbs}}</h4>
+        <h4>{{language == "English" ? english.total_protein : dutch.total_protein}}: {{sum.protein}}</h4>
+        <h4>{{language == "English" ? english.total_fats : dutch.total_fats}}: {{sum.fats}}</h4>
+        <h4>{{language == "English" ? english.total_alcoholic_beverages : dutch.total_alcoholic_beverages}}: {{sum.alcoholicBeverages}}</h4>
+        <h4>{{language == "English" ? english.total_non_alcoholic_drinks : dutch.total_non_alcoholic_drinks}}: {{sum.nonAlcoholicDrinks}}</h4>
+        <h4>{{language == "English" ? english.total_composed_meals : dutch.total_composed_meals}}: {{sum.composedMeals}}</h4>
+        <h4>{{language == "English" ? english.total_ingredients : dutch.total_ingredients}}: {{totalIngredientSum}}</h4>
+      </div>
+    </div>
 
-    <!-- <ejs-accordion >
-              <e-accordionitems>
-                <e-accordionitem expanded='true'>
-                  <ng-template  #header>
-                    <div  >Excerpt</div>
-                  </ng-template>
-                  <ng-template #content>
-                      <div class="form-group">
-                          <textarea class="form-control radius" rows="3" [(ngModel)]="post.excerpt" placeholder="Excerpt Here..."  maxlength="30"></textarea>
-                      </div>
-                  </ng-template>
-                </e-accordionitem>
-              </e-accordionitems>
-          </ejs-accordion> -->
 
-    <!-- <ngb-accordion class="radius" activeIds="custom-panel-1">
-              <ngb-panel id="custom-panel-1">
-                <ng-template ngbPanelHeader let-opened="opened">
-                  <div class="d-flex align-items-left justify-content-between">
-                    <h5 class="m-0">Excerpt</h5>
-                    <button ngbPanelToggle class="btn btn-link p-0 radius"><i class="mdi mdi-arrow-down-bold-circle"></i></button>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
 
-                  <div class="card">
-                      <div class="card-body">
-                              <div class="form-group">
-                                  <textarea class="form-control radius" rows="3" [(ngModel)]="post.excerpt" placeholder="Excerpt Here..."  maxlength="30"></textarea>
-                              </div>
-                      </div>
-                  </div>
-
-                </ng-template>
-              </ngb-panel>
-
-        </ngb-accordion> -->
   </div>
   <div class="col-md-3">
     <div class="form-group m-t-30 justify-content-end">
-      <button type="button" class="btn cus-btns  w-100 radius" (click)="AddRecipe()">Publish</button>
+      <button type="button" class="btn cus-btns  w-100 radius" (click)="AddRecipe()">
+        {{language == "English" ? english.publish : dutch.publish}}
+      </button>
     </div>
     <!-- Categories -->
     <div class="m-t-10">
@@ -112,7 +93,7 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Meal Type</div>
+              <div>{{language == "English" ? "Meal Type" : dutch.meal_type}}</div>
             </ng-template>
             <ng-template #content>
               <div class="todo-widget scrollable" style="height:200px;" [perfectScrollbar]="config">
@@ -122,7 +103,11 @@
                       <div class="custom-control custom-checkbox">
                         <input (click)="addMealType(m)" name="block" class="custom-control-input" id="'b-'{{m}}"
                           type="checkbox" />
-                        <label class="custom-control-label" for="'b-'{{m}}">{{m}}</label>
+                        <label *ngIf="language == 'English'" class="custom-control-label" for="'b-'{{m}}">{{m}}</label>
+                        <label *ngIf="language == 'Dutch'" class="custom-control-label" for="'b-'{{m}}">
+                          {{m == "Vegan" ? "Veganistisch" : m == "Vegetarian" ? "Vegetarisch" : m == "Omnivore" ?
+                          "Omnivoor" : m}}
+                        </label>
                       </div>
                     </div>
                   </li>
@@ -142,7 +127,7 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Recipe Type</div>
+              <div>{{language == "English" ? english.recipe_type : dutch.recipe_type}}</div>
             </ng-template>
             <ng-template #content>
               <div class="todo-widget scrollable" style="height:200px;" [perfectScrollbar]="config">
@@ -152,7 +137,11 @@
                       <div class="custom-control custom-checkbox">
                         <input (click)="addRecipeType(m)" name="block" class="custom-control-input" id="'b-'{{m}}"
                           type="checkbox" />
-                        <label class="custom-control-label" for="'b-'{{m}}">{{m}}</label>
+                        <label *ngIf="language == 'English'" class="custom-control-label" for="'b-'{{m}}">{{m}}</label>
+                        <label *ngIf="language == 'Dutch'" class="custom-control-label" for="'b-'{{m}}">
+                          {{m == "Breakfast" ? dutch.breakfast : m == "lunch" ? dutch.lunch : m == "Snach" ? dutch.snack
+                          : m == "Dinner" ? dutch.dinner : m }}
+                        </label>
                       </div>
                     </div>
                   </li>
@@ -172,7 +161,7 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Specifications</div>
+              <div>{{language == "English" ? english.specifications : dutch.specifications}}</div>
             </ng-template>
             <ng-template #content>
               <div class="todo-widget scrollable" style="height:200px; text-align: left;" [perfectScrollbar]="config">
@@ -182,7 +171,13 @@
                       <div class="custom-control custom-checkbox">
                         <input (click)="addSpecification(s)" name="block" class="custom-control-input" id="'b-'{{s}}"
                           type="checkbox" />
-                        <label class="custom-control-label" for="'b-'{{s}}">{{s}}</label>
+                        <label *ngIf="language == 'English'" class="custom-control-label" for="'b-'{{s}}">{{s}}</label>
+                        <label *ngIf="language == 'Dutch'" class="custom-control-label" for="'b-'{{s}}">
+                          {{s == "Gluten Free" ? "Glutenvrij" : s == "Lactose Free" ? "Lactose vrij" : s == "High Carb"
+                          ? "Hoge
+                          koolhydraten" : s == "High Fat" ? "Veel vet" : s == "High Protein" ? "Hoog proteïnegehalte" :
+                          s}}
+                        </label>
                       </div>
                     </div>
                   </li>
@@ -203,7 +198,7 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Feature Image</div>
+              <div>{{language == "English" ? english.feature_image : dutch.feature_image}}</div>
             </ng-template>
             <ng-template #content>
               <div class="upload-btn-wrapper pointer">
@@ -216,7 +211,8 @@
 
                     <i *ngIf="!imageUrl" style="z-index: 2; color: #444;" class="fa fa-upload pointer"></i>
                     <span *ngIf="!imageUrl" style="z-index: 2; color: #444; font-weight: 20px;"
-                      class="text-muted">Upload Feature Image</span>
+                      class="text-muted">{{language == "English" ? english.upload_feature_image :
+                      dutch.upload_feature_image}}</span>
                   </div>
                 </button>
                 <input type="file" name="banner" #fileInput (change)="onChange(fileInput.files[0])"
@@ -234,23 +230,26 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Carbs</div>
+              <div>{{language == "English" ? english.carbs : dutch.carbs}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
                 <div class="card-body">
                   <button *ngFor="let c of recipe.carbs" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{c?.ingredient?.nameEn}} <span class="badge badge-dark">{{c?.grams}}</span>
+                    {{language == "English" ? c?.ingredient?.nameEn : c?.ingredient?.nameNl}} <span
+                      class="badge badge-dark">{{c?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
                     <input type="Number" class="form-control" name="grams" [(ngModel)]="carb.grams" placeholder="grams">
                     <select id="carbs" class="selectpicker form-control" name="carb" [(ngModel)]="carb.ingredient">
-                      <option *ngFor="let c of carbs" [ngValue]="c">{{c?.nameEn}}</option>
+                      <option *ngFor="let c of carbs" [ngValue]="c">
+                        {{language == "English" ? c?.nameEn : c?.nameNl}}
+                      </option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams " type="submit"
-                        (click)="addCarb(myForm)">Add</button></span>
+                        (click)="addCarb(myForm, carb.grams)">Add</button></span>
 
                   </div>
                 </div>
@@ -268,24 +267,24 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Fruits</div>
+              <div>{{language == "English" ? english.fruits : dutch.fruits}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
                 <div class="card-body">
                   <button *ngFor="let c of recipe.fruits" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{c?.ingredient?.nameEn}} <span class="badge badge-dark">{{c?.grams}}</span>
+                    {{language == "English" ? c?.ingredient?.nameEn : c?.ingredient?.nameNl}} <span class="badge badge-dark">{{c?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
                     <input type="Number" class="form-control" name="grams" [(ngModel)]="fruit.grams"
                       placeholder="grams">
                     <select id="fruits" class="selectpicker form-control" name="fruit" [(ngModel)]="fruit.ingredient">
-                      <option *ngFor="let f of fruits" [ngValue]="f">{{f?.nameEn}}</option>
+                      <option *ngFor="let f of fruits" [ngValue]="f">{{language == "English" ? f?.nameEn : f?.nameNl}}</option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams" type="submit"
-                        (click)="addfruit(myForm)">Add</button></span>
+                        (click)="addfruit(myForm, fruit.grams)">Add</button></span>
 
                   </div>
                 </div>
@@ -303,7 +302,7 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Vegetables</div>
+              <div>{{language == "English" ? english.vegetables : dutch.vegetables}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
@@ -314,7 +313,7 @@
                                   </button> -->
                   <button *ngFor="let c of recipe.vegetables" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{c?.ingredient?.nameEn}} <span class="badge badge-dark">{{c?.grams}}</span>
+                    {{language == "English" ? c?.ingredient?.nameEn : c?.ingredient?.nameNl}} <span class="badge badge-dark">{{c?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
@@ -322,10 +321,10 @@
                       placeholder="grams">
                     <select id="vegetable" class="selectpicker form-control" name="vegetable"
                       [(ngModel)]="vegetable.ingredient">
-                      <option *ngFor="let v of vegetables" [ngValue]="v">{{v?.nameEn}}</option>
+                      <option *ngFor="let v of vegetables" [ngValue]="v">{{language == "English" ? v?.nameEn : v?.nameNl}}</option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams" type="submit"
-                        (click)="addvegetable(myForm)">Add</button></span>
+                        (click)="addvegetable(myForm, vegetable.grams)">Add</button></span>
 
                   </div>
                 </div>
@@ -343,23 +342,23 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Herbs</div>
+              <div>{{language == "English" ? english.herbs : dutch.herbs}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
                 <div class="card-body">
                   <button *ngFor="let c of recipe.herbs" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{c?.ingredient?.nameEn}} <span class="badge badge-dark">{{c?.grams}}</span>
+                    {{language == "English" ? c?.ingredient?.nameEn : c?.ingredient?.nameNl}} <span class="badge badge-dark">{{c?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
                     <input type="Number" class="form-control" name="grams" [(ngModel)]="herb.grams" placeholder="grams">
                     <select id="herb" class="selectpicker form-control" name="herb" [(ngModel)]="herb.ingredient">
-                      <option *ngFor="let h of herbs" [ngValue]="h">{{h?.nameEn}}</option>
+                      <option *ngFor="let h of herbs" [ngValue]="h">{{language == "English" ? h?.nameEn : h?.nameNl}}</option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams" type="submit"
-                        (click)="addherb(myForm)">Add</button></span>
+                        (click)="addherb(myForm, herb.grams)">Add</button></span>
 
                   </div>
                 </div>
@@ -377,23 +376,23 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Protein</div>
+              <div>{{language == "English" ? english.protein : dutch.protein}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
                 <div class="card-body">
                   <button *ngFor="let c of recipe.protein" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{c?.ingredient?.nameEn}} <span class="badge badge-dark">{{c?.grams}}</span>
+                    {{language == "English" ? c?.ingredient?.nameEn : c?.ingredient?.nameNl}} <span class="badge badge-dark">{{c?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
                     <input type="Number" class="form-control" name="grams" [(ngModel)]="prot.grams" placeholder="grams">
                     <select id="protein" class="selectpicker form-control" name="protein" [(ngModel)]="prot.ingredient">
-                      <option *ngFor="let p of protein" [ngValue]="p">{{p?.nameEn}}</option>
+                      <option *ngFor="let p of protein" [ngValue]="p">{{language == "English" ? p?.nameEn : p?.nameNl}}</option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams" type="submit"
-                        (click)="addprotein(myForm)">Add</button></span>
+                        (click)="addprotein(myForm, prot.grams)">Add</button></span>
 
                   </div>
                 </div>
@@ -411,23 +410,23 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Fat</div>
+              <div>{{language == "English" ? english.fat : dutch.fat}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
                 <div class="card-body">
                   <button *ngFor="let c of recipe.fats" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{c?.ingredient?.nameEn}} <span class="badge badge-dark">{{c?.grams}}</span>
+                    {{language == "English" ? c?.ingredient?.nameEn : c?.ingredient?.nameNl}} <span class="badge badge-dark">{{c?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
                     <input type="Number" class="form-control" name="grams" [(ngModel)]="fat.grams" placeholder="grams">
                     <select id="fat" class="selectpicker form-control" name="fat" [(ngModel)]="fat.ingredient">
-                      <option *ngFor="let f of fats" [ngValue]="f">{{f?.nameEn}}</option>
+                      <option *ngFor="let f of fats" [ngValue]="f">{{language == "English" ? f?.nameEn : f?.nameNl}}</option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams" type="submit"
-                        (click)="addfat(myForm)">Add</button></span>
+                        (click)="addfat(myForm, fat.grams)">Add</button></span>
 
                   </div>
                 </div>
@@ -443,14 +442,14 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Alcoholic Beverage</div>
+              <div>{{language == "English" ? english.alcoholic_beverage : dutch.alcoholic_beverage}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
                 <div class="card-body">
                   <button *ngFor="let a of recipe.alcogolicBeverages" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{a?.ingredient?.nameEn}} <span class="badge badge-dark">{{a?.grams}}</span>
+                    {{language == "English" ? a?.ingredient?.nameEn : a?.ingredient?.nameNl}} <span class="badge badge-dark">{{a?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
@@ -458,10 +457,10 @@
                       placeholder="grams">
                     <select id="alcoholicBeverage" class="selectpicker form-control" name="alcoholicBeverage"
                       [(ngModel)]="alcoholicBeverage.ingredient">
-                      <option *ngFor="let a of alcoholicBeverages" [ngValue]="a">{{a?.nameEn}}</option>
+                      <option *ngFor="let a of alcoholicBeverages" [ngValue]="a">{{language == "English" ? a?.nameEn : a?.nameNl}}</option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams" type="submit"
-                        (click)="addAlcoholicBeverage(myForm)">Add</button></span>
+                        (click)="addAlcoholicBeverage(myForm, alcoholicBeverage.grams)">Add</button></span>
 
                   </div>
                 </div>
@@ -477,14 +476,14 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Non Alcoholic Drinks</div>
+              <div>{{language == "English" ? english.non_alcoholic_drinks : dutch.non_alcoholic_drinks}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
                 <div class="card-body">
                   <button *ngFor="let a of recipe.nonAlcoholicDrinks" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{a?.ingredient?.nameEn}} <span class="badge badge-dark">{{a?.grams}}</span>
+                    {{language == "English" ? a?.ingredient?.nameEn : a?.ingredient?.nameNl}} <span class="badge badge-dark">{{a?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
@@ -492,10 +491,10 @@
                       placeholder="grams">
                     <select id="nonAlcoholicBeverage" class="selectpicker form-control" name="nonAlcoholicBeverage"
                       [(ngModel)]="nonAlcoholicBeverage.ingredient">
-                      <option *ngFor="let a of nonAlcoholicBeverages" [ngValue]="a">{{a?.nameEn}}</option>
+                      <option *ngFor="let a of nonAlcoholicBeverages" [ngValue]="a">{{language == "English" ? a?.nameEn : a?.nameNl}}</option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams" type="submit"
-                        (click)="addNonAlcoholicDrink(myForm)">Add</button></span>
+                        (click)="addNonAlcoholicDrink(myForm, nonAlcoholicBeverage.grams)">Add</button></span>
 
                   </div>
                 </div>
@@ -511,14 +510,14 @@
         <e-accordionitems>
           <e-accordionitem expanded='true'>
             <ng-template #header>
-              <div>Composed Meals</div>
+              <div>{{language == "English" ? english.composed_meals : dutch.composed_meals}}</div>
             </ng-template>
             <ng-template #content>
               <form #myForm="ngForm">
                 <div class="card-body">
                   <button *ngFor="let a of recipe.composedMeals" type="button"
                     class="btn btn-xs btn-rounded btn-outline-secondary" style="margin:2px ">
-                    {{a?.ingredient?.nameEn}} <span class="badge badge-dark">{{a?.grams}}</span>
+                    {{language == "English" ? a?.ingredient?.nameEn : a?.ingredient?.nameNl}} <span class="badge badge-dark">{{a?.grams}}</span>
                   </button>
                   <div class="input-group my-group">
                     <!-- <span [(ngModel)]="tmpVal.name = c.nameEn" ></span> -->
@@ -526,10 +525,10 @@
                       placeholder="grams">
                     <select id="composedMeal" class="selectpicker form-control" name="composedMeal"
                       [(ngModel)]="composedMeal.ingredient">
-                      <option *ngFor="let a of composedMeals" [ngValue]="a">{{a?.nameEn}}</option>
+                      <option *ngFor="let a of composedMeals" [ngValue]="a">{{language == "English" ? a?.nameEn : a?.nameNl}}</option>
                     </select>
                     <span class="input-group-btn"><button class="btn add-grams" type="submit"
-                        (click)="addComposedMeal(myForm)">Add</button></span>
+                        (click)="addComposedMeal(myForm, composedMeal.grams)">Add</button></span>
 
                   </div>
                 </div>

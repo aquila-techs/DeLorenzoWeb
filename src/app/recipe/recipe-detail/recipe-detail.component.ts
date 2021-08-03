@@ -1,12 +1,14 @@
-import { Component, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { RecipeService } from "../services/recipe.service";
 import { ToastrService } from 'ngx-toastr';
 import Quill from 'quill';
 import { environment } from "src/environments/environment";
-import { NgbModal,ModalDismissReasons,NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgForm } from '@angular/forms';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import * as english from "../../shared/translation/english";
+import * as dutch from "../../shared/translation/dutch";
 
 
 
@@ -25,7 +27,7 @@ export class RecipeDetailComponent implements OnInit {
 
   mType = ["Vegan", "Vegetarian", "Omnivore"];
   rType = ["Breakfast", "lunch", "Snack", "Dinner"];
-  specification = ["Glutenfree", "Lactosefree", "High crab ", "High fat", "High protein"];
+  specification = ["Gluten Free", "Lactose Free", "High Carb", "High Fat", "High Protein"];
   ingredient = {} as any;
   grams = "";
   carb = {} as any;
@@ -42,10 +44,21 @@ export class RecipeDetailComponent implements OnInit {
   vegetables = [];
   herbs = [];
   alcoholicBeverages = [];
-  sum;
   fileName;
   file;
   imageUrl: string | ArrayBuffer = "";
+  totalIngredientSum = 0;
+  sum = {
+    carbs: 0,
+    fruits: 0,
+    vegetables: 0,
+    herbs: 0,
+    protein: 0,
+    fats: 0,
+    alcoholicBeverages: 0,
+    nonAlcoholicDrinks: 0,
+    composedMeals: 0
+  }
 
   public config: PerfectScrollbarConfigInterface = {};
 
@@ -53,13 +66,30 @@ export class RecipeDetailComponent implements OnInit {
 
   searchField = "";
   search = []
-  constructor(private modalService: NgbModal, private router: Router, private actRoute: ActivatedRoute, private recipeS: RecipeService, private toastr: ToastrService) { }
+
+  language = "";
+  english = english;
+  dutch = dutch;
+
+  constructor(private modalService: NgbModal, private router: Router, private actRoute: ActivatedRoute, private recipeS: RecipeService, private toastr: ToastrService) {
+    this.language = localStorage.getItem("language");
+  }
 
   ngOnInit(): void {
     this.recipeS.getSingleRecipe(this.actRoute.snapshot.params.recipeId).subscribe(res => {
       if (res.status == true) {
         this.recipe = res.data;
-        console.log(this.recipe);
+        console.log(res.data);
+        this.sum.carbs = res.data.totalCarbs;
+        this.sum.fruits = res.data.totalFruits;
+        this.sum.vegetables = res.data.totalVegetables;
+        this.sum.herbs = res.data.totalHerbs;
+        this.sum.protein = res.data.totalProtein;
+        this.sum.fats = res.data.totalFats;
+        this.sum.alcoholicBeverages = res.data.totalAlcoholicBeverages;
+        this.sum.nonAlcoholicDrinks = res.data.totalNonAlcoholicDrinks;
+        this.sum.composedMeals = res.data.totalComposedMeals;
+        this.totalIngredientSum = res.data.totalIngredientSum;
         this.recipe.totalIngredients = [];
       }
     })
@@ -104,7 +134,7 @@ export class RecipeDetailComponent implements OnInit {
 
     this.dropdownSettings = {
       singleSelection: false,
-      idField:'_id',
+      idField: '_id',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       allowSearchFilter: true,
@@ -122,13 +152,9 @@ export class RecipeDetailComponent implements OnInit {
 
   AddRecipe() {
     console.log(this.recipe)
-    this.addTotalCarbs();
-    this.addTotalFats();
-    this.addTotalAlcoholicBeverages();
-    this.addTotalFruits();
-    this.addTotalHerbs();
-    this.addTotalProteins();
-    this.addTotalVegetables();
+
+    this.recipe['sum'] = this.sum;
+    this.recipe['totalIngredientSum'] = this.totalIngredientSum;
     this.recipeS.updateRecipe(this.recipe, this.file).subscribe(res => {
       // console.log(res)
       if (res.status == true) {
@@ -146,7 +172,7 @@ export class RecipeDetailComponent implements OnInit {
       var totalCarbs = 0;
       this.recipe.carbs.forEach((data) => {
         console.log(data);
-         totalCarbs += data.grams
+        totalCarbs += data.grams
       })
       var carbsSum = {
         totalCarbs: totalCarbs
@@ -412,7 +438,7 @@ export class RecipeDetailComponent implements OnInit {
 
   EditCarbs(editCarb) {
     // this.carbs = (this.recipe.carbs)?this.recipe.carbs:[];
-    console.log("carbs Array",this.carbs)
+    console.log("carbs Array", this.carbs)
     this.modalService.open(editCarb, { windowClass: "dark-modal", size: 'lg' });
   }
 
@@ -433,7 +459,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   selectedCarb(c) {
-    console.log("Selected Carb",c);
+    console.log("Selected Carb", c);
   }
 
   toggle() {
@@ -442,7 +468,7 @@ export class RecipeDetailComponent implements OnInit {
 
   onItemSelect(item: any) {
     console.log(item);
-  //  console.log  (this.partnersData.find(e=>{ return e.name == item}))
+    //  console.log  (this.partnersData.find(e=>{ return e.name == item}))
     // const partner = this.partnersData.find(e => { return e.name == item })
     // this.user.referBy = partner._id;
   }

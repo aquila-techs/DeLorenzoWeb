@@ -23,10 +23,16 @@ export class NavigationComponent implements AfterViewInit {
   public config: PerfectScrollbarConfigInterface = {};
 
   public showSearch = false;
-  language = "English";
+  language = "";
   constructor(public translate: TranslateService, private modalService: NgbModal, private AuthHelperService: AuthHelperService, private router: Router) {
     translate.addLangs(['en', 'nl']);
     translate.setDefaultLang('en');
+    this.language = localStorage.getItem("language");
+    if (this.language === "" || this.language === "English") {
+      localStorage.setItem("language", "English");
+    } else {
+      localStorage.setItem("language", "Dutch")
+    }
   }
 
   //Language Switcher
@@ -34,8 +40,12 @@ export class NavigationComponent implements AfterViewInit {
     console.log(lang)
     if (lang == "en") {
       this.language = "English"
+      localStorage.setItem("language", "English");
+      window.location.reload()
     } else {
       this.language = "Dutch"
+      localStorage.setItem("language", "Dutch")
+      window.location.reload()
     }
 
     this.translate.use(lang);

@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { RecipeService } from "../services/recipe.service";
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
+import * as english from "../../shared/translation/english";
+import * as dutch from "../../shared/translation/dutch";
 
 @Component({
   selector: 'app-add-recipe',
@@ -17,13 +19,13 @@ export class AddRecipeComponent implements OnInit {
 
   recipe = {
     nameEn: "", nameNl: "", recipeEn: "", recipeNl: "", time: "", videoUrl: "", recipeUrl: "", pricing: "", mealType: [], specification: [],
-    carbs: [], protein: [], fats: [], fruits: [], vegetables: [], herbs: [], recipeType: [], alcogolicBeverages: [], totalIngredients: [],
+    carbs: [], protein: [], fats: [], fruits: [], vegetables: [], herbs: [], recipeType: [], alcogolicBeverages: [],
     nonAlcoholicDrinks: [], composedMeals: []
   }
 
   mType = ["Vegan", "Vegetarian", "Omnivore"];
   rType = ["Breakfast", "lunch", "Snack", "Dinner"];
-  specification = ["Glutenfree", "Lactosefree", "High crab ", "High fat", "High protein"];
+  specification = ["Gluten Free", "Lactose Free", "High Carb", "High Fat", "High Protein"];
   ingredient = {} as any;
   grams = "";
   carb = {} as any;
@@ -48,9 +50,27 @@ export class AddRecipeComponent implements OnInit {
   fileName;
   file;
   imageUrl: string | ArrayBuffer = "";
+  totalIngredientSum = 0;
+  sum = {
+    carbs: 0,
+    fruits: 0,
+    vegetables: 0,
+    herbs: 0,
+    protein: 0,
+    fats: 0,
+    alcoholicBeverages: 0,
+    nonAlcoholicDrinks: 0,
+    composedMeals: 0
+  }
+
+  language = "";
+  english = english;
+  dutch = dutch;
 
   public config: PerfectScrollbarConfigInterface = {};
-  constructor(private toastr: ToastrService, private router: Router, private recipeS: RecipeService) { }
+  constructor(private toastr: ToastrService, private router: Router, private recipeS: RecipeService) {
+    this.language = localStorage.getItem("language");
+   }
 
   ngOnInit(): void {
     this.recipeS.getAllCarbs().subscribe(res => {
@@ -111,16 +131,11 @@ export class AddRecipeComponent implements OnInit {
   }
 
   AddRecipe() {
-    console.log(this.recipe)
-    this.addTotalCarbs();
-    this.addTotalFats();
-    this.addTotalAlcoholicBeverages();
-    this.addTotalFruits();
-    this.addTotalHerbs();
-    this.addTotalProteins();
-    this.addTotalVegetables();
+    this.recipe['sum'] = this.sum;
+    this.recipe['totalIngredientSum'] = this.totalIngredientSum;
+    console.log(this.recipe);
+
     this.recipeS.createRecipe(this.recipe, this.file).subscribe(res => {
-      // console.log(res)
       if (res.status == true) {
         this.toastr.success("Recipe Published!", 'Success!', { timeOut: 3000, closeButton: true, progressBar: true, progressAnimation: 'decreasing' });
         setTimeout(() => this.router.navigateByUrl('/recipes/all'), 1000)
@@ -130,116 +145,74 @@ export class AddRecipeComponent implements OnInit {
     })
   }
 
-  addTotalCarbs() {
+  totalIngredients() {
+    // for (var key in this.sum) {
+    //   this.totalIngredientSum += this.sum[key];
+    // };
+    this.totalIngredientSum = this.sum.carbs +
+                              this.sum.fats +
+                              this.sum.vegetables +
+                              this.sum.fruits +
+                              this.sum.herbs +
+                              this.sum.protein +
+                              this.sum.alcoholicBeverages +
+                              this.sum.nonAlcoholicDrinks +
+                              this.sum.composedMeals
+  }
+
+  addTotalCarbs(carbs) {
     if (this.recipe.carbs.length > 0) {
-      console.log('carbs available')
-      var totalCarbs = 0;
-      this.recipe.carbs.forEach((data) => {
-        console.log(data);
-         totalCarbs += data.grams
-      })
-      var carbsSum = {
-        totalCarbs: totalCarbs
-      }
-      this.recipe.totalIngredients.push(carbsSum);
-      console.log(totalCarbs)
-      console.log(this.recipe.totalIngredients)
+      this.sum.carbs += carbs;
+      console.log(this.sum.carbs)
+      this.totalIngredients();
     }
   }
-  addTotalFats() {
+  addTotalFats(fats) {
     if (this.recipe.fats.length > 0) {
-      console.log('carbs available')
-      var totalFats = 0;
-      this.recipe.fats.forEach((data) => {
-        console.log(data);
-        totalFats += data.grams
-      })
-      var fatsSum = {
-        totalFats: totalFats
-      }
-      this.recipe.totalIngredients.push(fatsSum);
-      console.log(totalFats)
-      console.log(this.recipe.totalIngredients)
+      this.sum.fats += fats;
+      this.totalIngredients();
     }
   }
-  addTotalVegetables() {
+  addTotalVegetables(vegetables) {
     if (this.recipe.vegetables.length > 0) {
-      console.log('carbs available')
-      var totalVeges = 0;
-      this.recipe.vegetables.forEach((data) => {
-        console.log(data);
-        totalVeges += data.grams
-      })
-      var vegesSum = {
-        totalVegetables: totalVeges
-      }
-      this.recipe.totalIngredients.push(vegesSum);
-      console.log(totalVeges)
-      console.log(this.recipe.totalIngredients)
+      this.sum.vegetables += vegetables;
+      this.totalIngredients();
     }
   }
-  addTotalProteins() {
+  addTotalProteins(protein) {
     if (this.recipe.protein.length > 0) {
-      console.log('carbs available')
-      var totalProteins = 0;
-      this.recipe.protein.forEach((data) => {
-        console.log(data);
-        totalProteins += data.grams
-      })
-      var proteinSum = {
-        totalProtein: totalProteins
-      }
-      this.recipe.totalIngredients.push(proteinSum);
-      console.log(totalProteins)
-      console.log(this.recipe.totalIngredients)
+      this.sum.protein += protein;
+      this.totalIngredients();
     }
   }
-  addTotalFruits() {
+  addTotalFruits(fruits) {
     if (this.recipe.fruits.length > 0) {
-      console.log('carbs available')
-      var totalFruits = 0;
-      this.recipe.fruits.forEach((data) => {
-        console.log(data);
-        totalFruits += data.grams
-      })
-      var fruitsSum = {
-        totalFruits: totalFruits
-      }
-      this.recipe.totalIngredients.push(fruitsSum);
-      console.log(totalFruits)
-      console.log(this.recipe.totalIngredients)
+      this.sum.fruits += fruits;
+      this.totalIngredients();
     }
   }
-  addTotalHerbs() {
+  addTotalHerbs(herbs) {
     if (this.recipe.herbs.length > 0) {
-      console.log('carbs available')
-      var totalHerbs = 0;
-      this.recipe.herbs.forEach((data) => {
-        console.log(data);
-        totalHerbs += data.grams
-      })
-      var herbsSum = {
-        totalHerbs: totalHerbs
-      }
-      this.recipe.totalIngredients.push(herbsSum);
-      console.log(totalHerbs)
-      console.log(this.recipe.totalIngredients)
+      this.sum.herbs += herbs;
+      this.totalIngredients();
     }
   }
-  addTotalAlcoholicBeverages() {
+  addTotalAlcoholicBeverages(alcogolicBeverages) {
     if (this.recipe.alcogolicBeverages.length > 0) {
-      console.log('carbs available')
-      var totalAlcogolicBeverages = 0;
-      this.recipe.alcogolicBeverages.forEach((data) => {
-        console.log(data);
-        totalAlcogolicBeverages += data.grams
-      })
-      var totalAlcogolicBeveragesSum = {
-        totalAlcogolicBeverages: totalAlcogolicBeverages
-      }
-      this.recipe.totalIngredients.push(totalAlcogolicBeveragesSum);
-      console.log(totalAlcogolicBeveragesSum)
-      console.log(this.recipe.totalIngredients)
+      this.sum.alcoholicBeverages += alcogolicBeverages;
+      this.totalIngredients();
+    }
+  }
+  addTotalNonAlcoholicDrinks(nonAlcoholicDrinks) {
+    if (this.recipe.nonAlcoholicDrinks.length > 0) {
+      this.sum.nonAlcoholicDrinks += nonAlcoholicDrinks;
+      this.totalIngredients();
+    }
+  }
+  addTotalComposedMeals(composedMeals) {
+    if (this.recipe.composedMeals.length > 0) {
+      this.sum.composedMeals += composedMeals;
+      this.totalIngredients();
     }
   }
 
@@ -265,7 +238,7 @@ export class AddRecipeComponent implements OnInit {
       // console.log("Meal from True:",this.recipe.mealType);
     } else {
       this.recipe.mealType.push(meal);
-      console.log("Meal from false:",this.recipe.mealType)
+      console.log("Meal from false:", this.recipe.mealType)
     }
   }
 
@@ -291,8 +264,8 @@ export class AddRecipeComponent implements OnInit {
     }
   }
 
-  addCarb(form: NgForm) {
-    // console.log(this.carb)
+  addCarb(form: NgForm, carbs) {
+    console.log(carbs);
     let check = this.recipe.carbs.some(ele => ele.ingredient._id == this.carb.ingredient._id);
     // console.log("Check:",check)
     if (check === true) {
@@ -303,11 +276,12 @@ export class AddRecipeComponent implements OnInit {
       this.carb.kCal = totalkCal;
       this.recipe.carbs.push(this.carb);
       this.carb = {};
+      this.addTotalCarbs(carbs);
       // console.log("Carb from false:",this.recipe.carbs)
     }
   }
 
-  addfruit(form: NgForm) {
+  addfruit(form: NgForm, fruits) {
     // console.log(this.fruit)
     let check = this.recipe.fruits.some(ele => ele.ingredient._id == this.fruit.ingredient._id);
     // console.log("Check:",check)
@@ -319,10 +293,11 @@ export class AddRecipeComponent implements OnInit {
       this.fruit.kCal = totalkCal;
       this.recipe.fruits.push(this.fruit);
       this.fruit = {};
+      this.addTotalFruits(fruits);
       // console.log("Fruit from false:",this.recipe.fruits)
     }
   }
-  addvegetable(form: NgForm) {
+  addvegetable(form: NgForm, vegetables) {
     // console.log(this.vegetable)
     let check = this.recipe.vegetables.some(ele => ele.ingredient._id == this.vegetable.ingredient._id);
     // console.log("Check:",check)
@@ -334,10 +309,11 @@ export class AddRecipeComponent implements OnInit {
       this.vegetable.kCal = totalkCal;
       this.recipe.vegetables.push(this.vegetable);
       this.vegetable = {};
+      this.addTotalVegetables(vegetables)
       // console.log("Vegetable from false:",this.recipe.vegetables)
     }
   }
-  addherb(form: NgForm) {
+  addherb(form: NgForm, herbs) {
     // console.log(this.herb)
     let check = this.recipe.herbs.some(ele => ele.ingredient._id == this.herb.ingredient._id);
     // console.log("Check:",check)
@@ -349,10 +325,11 @@ export class AddRecipeComponent implements OnInit {
       this.herb.kCal = totalkCal;
       this.recipe.herbs.push(this.herb);
       this.herb = {};
+      this.addTotalHerbs(herbs);
       // console.log("herb from false:",this.recipe.herbs)
     }
   }
-  addprotein(form: NgForm) {
+  addprotein(form: NgForm, protein) {
     // console.log(this.protein)
     let check = this.recipe.protein.some(ele => ele.ingredient._id == this.prot.ingredient._id);
     // console.log("Check:",check)
@@ -364,10 +341,11 @@ export class AddRecipeComponent implements OnInit {
       this.prot.kCal = totalkCal;
       this.recipe.protein.push(this.prot);
       this.prot = {};
+      this.addTotalProteins(protein)
       // console.log("Protein from false:",this.recipe.protein)
     }
   }
-  addfat(form: NgForm) {
+  addfat(form: NgForm, fats) {
     // console.log(this.fat)
     let check = this.recipe.fats.some(ele => ele.ingredient._id == this.fat.ingredient._id);
     // console.log("Check:",check)
@@ -379,11 +357,12 @@ export class AddRecipeComponent implements OnInit {
       this.fat.kCal = totalkCal;
       this.recipe.fats.push(this.fat);
       this.fat = {};
+      this.addTotalFats(fats)
       // console.log("Fat from false:",this.recipe.fats)
     }
   }
 
-  addAlcoholicBeverage(form: NgForm) {
+  addAlcoholicBeverage(form: NgForm, alcogolicBeverages) {
     // console.log(this.fat)
     let check = this.recipe.alcogolicBeverages.some(ele => ele.ingredient._id == this.alcoholicBeverage.ingredient._id);
     console.log("Check:", check)
@@ -395,11 +374,12 @@ export class AddRecipeComponent implements OnInit {
       this.alcoholicBeverage.kCal = totalkCal;
       this.recipe.alcogolicBeverages.push(this.alcoholicBeverage);
       this.alcoholicBeverage = {};
+      this.addTotalAlcoholicBeverages(alcogolicBeverages)
       // console.log("Fat from false:",this.recipe.fats)
     }
   }
 
-  addNonAlcoholicDrink(form: NgForm) {
+  addNonAlcoholicDrink(form: NgForm, nonAlcoholicDrinks) {
     // console.log(this.fat)
     let check = this.recipe.nonAlcoholicDrinks.some(ele => ele.ingredient._id == this.nonAlcoholicBeverage.ingredient._id);
     console.log("Check:", check)
@@ -411,11 +391,12 @@ export class AddRecipeComponent implements OnInit {
       this.nonAlcoholicBeverage.kCal = totalkCal;
       this.recipe.nonAlcoholicDrinks.push(this.nonAlcoholicBeverage);
       this.nonAlcoholicBeverage = {};
+      this.addTotalNonAlcoholicDrinks(nonAlcoholicDrinks)
       // console.log("Fat from false:",this.recipe.fats)
     }
   }
 
-  addComposedMeal(form: NgForm) {
+  addComposedMeal(form: NgForm, composedMeals) {
     // console.log(this.fat)
     let check = this.recipe.composedMeals.some(ele => ele.ingredient._id == this.composedMeal.ingredient._id);
     console.log("Check:", check)
@@ -427,6 +408,7 @@ export class AddRecipeComponent implements OnInit {
       this.composedMeal.kCal = totalkCal;
       this.recipe.composedMeals.push(this.composedMeal);
       this.composedMeal = {};
+      this.addTotalComposedMeals(composedMeals)
       // console.log("Fat from false:",this.recipe.fats)
     }
   }

@@ -1,24 +1,31 @@
 import { RouteInfo } from './sidebar.metadata';
+import * as english from "../translation/english";
+import * as dutch from "../translation/dutch";
+
+const language = localStorage.getItem("language");
+
+console.log('************ menu ****************', language);
+
 
 export const ROUTES: RouteInfo[] = [
     {
         path: '/dashboard/classic',
         title: 'Dashboard',
         icon: 'mdi mdi-view-dashboard',
-        class: '', //has-arrow 
+        class: '', //has-arrow
         extralink: false,
         submenu:[]
     },
     {
         path: '',
-        title: 'Posts',
+        title: `${language === "English" ? english.posts : dutch.posts}`,
         icon: 'mdi mdi-pin',
         class: 'has-arrow',
         extralink: false,
         submenu: [
             {
                         path: '/post/all',
-                        title: 'All Posts',
+                        title: `${language === "English" ? english.all_posts : dutch.all_posts}`,
                         icon: 'mdi mdi-twitch',
                         class: '',
                         extralink: false,
@@ -26,7 +33,7 @@ export const ROUTES: RouteInfo[] = [
             },
             {
                 path: '/post/add',
-                title: 'Add Post',
+                title: `${language === "English" ? english.add_post : dutch.add_post}`,
                 icon: 'mdi mdi-message-plus',
                 class: '',
                 extralink: false,
@@ -53,14 +60,14 @@ export const ROUTES: RouteInfo[] = [
     },
     {
         path: '',
-        title: 'Recipes',
+        title: `${language === "English" ? english.recipes : dutch.recipes}`,
         icon: 'mdi mdi-food',
         class: 'has-arrow',
         extralink: false,
         submenu: [
             {
                 path: '/recipes/all',
-                title: 'All Recipes',
+                title: `${language === "English" ? english.all_recipes : dutch.all_recipes}`,
                 icon: 'mdi mdi-adjust',
                 class: '',
                 extralink: false,
@@ -68,7 +75,7 @@ export const ROUTES: RouteInfo[] = [
             },
             {
                         path: '/recipes/addrecipe',
-                        title: 'Add Recipe',
+                        title: `${language === "English" ? english.add_recipe : dutch.add_recipe}`,
                         icon: 'mdi mdi-adjust',
                         class: '',
                         extralink: false,
@@ -76,36 +83,36 @@ export const ROUTES: RouteInfo[] = [
             }
         ]
     },
-    {
-        path: '',
-        title: 'WorkOut',
-        icon: 'mdi mdi-dumbbell',
-        class: 'has-arrow', //has-arrow 
-        extralink: false,
-        submenu: [
-            {
-                path: '/workout/all',
-                title: 'All Workouts',
-                icon: 'mdi mdi-adjust',
-                class: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/workout/addworkout',
-                title: 'Add Workout',
-                icon: 'mdi mdi-adjust',
-                class: '',
-                extralink: false,
-                submenu: []
-            }
-        ]
-    },
+    // {
+    //     path: '',
+    //     title: 'WorkOut',
+    //     icon: 'mdi mdi-dumbbell',
+    //     class: 'has-arrow', //has-arrow
+    //     extralink: false,
+    //     submenu: [
+    //         {
+    //             path: '/workout/all',
+    //             title: 'All Workouts',
+    //             icon: 'mdi mdi-adjust',
+    //             class: '',
+    //             extralink: false,
+    //             submenu: []
+    //         },
+    //         {
+    //             path: '/workout/addworkout',
+    //             title: 'Add Workout',
+    //             icon: 'mdi mdi-adjust',
+    //             class: '',
+    //             extralink: false,
+    //             submenu: []
+    //         }
+    //     ]
+    // },
     {
         path: '/profile',
-        title: 'Profile',
+        title: `${language === "English" ? english.profile : dutch.profile}`,
         icon: 'mdi mdi-account-network',
-        class: '', //has-arrow 
+        class: '', //has-arrow
         extralink: false,
         submenu:[]
     }
@@ -117,6 +124,6 @@ export const ROUTES: RouteInfo[] = [
         //     extralink: false,
         //     submenu: []
         // },
-    
-                
+
+
 ];
