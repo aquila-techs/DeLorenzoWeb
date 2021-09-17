@@ -56,6 +56,10 @@
         <h6>{{userProfileData?.state}}</h6>
         <small class="text-muted p-t-30 db">Country</small>
         <h6>{{userProfileData?.country}}</h6>
+        <small class="text-muted p-t-30 db">Website</small>
+        <h6>{{userProfileData?.website}}</h6>
+        <small class="text-muted p-t-30 db">Facebook</small>
+        <h6>{{userProfileData?.facebook}}</h6>
         <!-- <div class="map-box">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508"
@@ -326,6 +330,58 @@
                       id="example-country" [(ngModel)]="userProfileData.country">
                   </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-md-12">Website URL</label>
+                  <div class="col-md-12">
+                    <input type="text" class="form-control form-control-line" name="example-website"
+                      id="example-website" [(ngModel)]="userProfileData.website">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-md-12">Facebook URL</label>
+                  <div class="col-md-12">
+                    <input type="text" class="form-control form-control-line" name="example-facebook"
+                      id="example-facebook" [(ngModel)]="userProfileData.facebook">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-12">Instagram URL</label>
+                  <div class="col-md-12">
+                    <input type="text" class="form-control form-control-line" name="example-instagram"
+                      id="example-instagram" [(ngModel)]="userProfileData.instagram">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-md-12">Linkedin URL</label>
+                  <div class="col-md-12">
+                    <input type="text" class="form-control form-control-line" name="example-linkedin"
+                      id="example-linkedin" [(ngModel)]="userProfileData.linkedin">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-12">Youtube URL</label>
+                  <div class="col-md-12">
+                    <input type="text" class="form-control form-control-line" name="example-youtube"
+                      id="example-youtube" [(ngModel)]="userProfileData.youtube">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-12">Twitter URL</label>
+                  <div class="col-md-12">
+                    <input type="text" class="form-control form-control-line" name="example-twitter"
+                      id="example-twitter" [(ngModel)]="userProfileData.twitter">
+                  </div>
+                </div>
+
+
+
                 <!-- <div class="form-group">
                   <label class="col-sm-12">Select Country</label>
                   <div class="col-sm-12">

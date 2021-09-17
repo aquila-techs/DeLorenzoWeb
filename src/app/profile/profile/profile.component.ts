@@ -22,7 +22,14 @@ export class ProfileComponent implements OnInit {
     bio: '',
     city: '',
     state: '',
-    country: ''
+    country: '',
+    website: '',
+    facebook:'',
+    instagram:'',
+    linkedin:'',
+    youtube:'',
+    twitter:''
+
   }
 
   constructor(private profileService: ProfileService, private toastr: ToastrService) { }
@@ -40,6 +47,15 @@ export class ProfileComponent implements OnInit {
         this.userProfileData.city = data.city;
         this.userProfileData.state = data.state;
         this.userProfileData.country = data.country;
+
+
+        this.userProfileData.website = data.website;
+        this.userProfileData.facebook = data.facebook;
+        this.userProfileData.instagram = data.instagram;
+        this.userProfileData.linkedin = data.linkedin;
+        this.userProfileData.twitter = data.twitter;
+        this.userProfileData.youtube = data.youtube
+
         console.log(this.userProfileData);
 
         if(data.profilePic) {

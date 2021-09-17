@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
-  //baseUrl: "https://api.myfitspot.com/api",
-  baseUrl: "http://localhost:3003/api",
-  imgUrl:"http://localhost:3003/",
+  baseUrl: "https://api.myfitspot.com/api",
+  //baseUrl: "http://localhost:3003/api",
+  //imgUrl:"http://localhost:3003/",
+  imgUrl: "https://api.myfitspot.com/",
   // baseUrl: "http://140.82.50.108:3003/api",
   liveUrl: "https://partner.myfitspot.com",
   testUrl:"http://localhost:4200",
